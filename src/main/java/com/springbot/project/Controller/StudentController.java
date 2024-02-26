@@ -79,4 +79,9 @@ public class StudentController {
         log.info("Cotroller class for path student using id");
         return studentService.updateStudentWithPatch(id, stu_name, stu_email, updateStudentWithPatch);
     }
+
+    @GetMapping("/student")
+    public List<Student> findStudentById(@RequestParam Long id) {
+        return studentService.findStudentById(id);
+    }
 }

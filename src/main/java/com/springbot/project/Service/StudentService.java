@@ -18,4 +18,6 @@ public interface StudentService {
     public Student updateStudent(Long id, Student updatedStudent);
 
     public Student updateStudentWithPatch(Long id, String stu_nmae, String stu_emial, Student updateStudentWithPatch);
+
+    public List<Student> findStudentById(Long id);
 }
