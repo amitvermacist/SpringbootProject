@@ -24,6 +24,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public String processStudent(Long stu_id, String stu_name, String stu_email, Long stu_mobile_no) {
+        return "Student Id" + stu_id + "student name" + stu_name + "student email" + stu_email + "student mobile no" + stu_mobile_no;
+
+    }
+
+    @Override
     public List<Student> getAllStudent() {
         log.info("Service implementation for get all student !");
         return studentRepository.findAll();
@@ -55,5 +61,24 @@ public class StudentServiceImpl implements StudentService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Student updateStudentWithPatch(Long id, String stu_name, String stu_email, Student updateStudentWithPatch) {
+        Student existStudent = studentRepository.findById(id).orElse(null);
+        if (existStudent != null) {
+            if (updateStudentWithPatch.getStu_name() != null) {
+                existStudent.setStu_name(updateStudentWithPatch.getStu_name());
+            }
+            if (updateStudentWithPatch.getStu_email() != null) {
+                existStudent.setStu_email(updateStudentWithPatch.getStu_email());
+            }
+            if (updateStudentWithPatch.getStu_mob_no() != 0) {
+                existStudent.setStu_mob_no((updateStudentWithPatch.getStu_mob_no()));
+            }
+            log.info("Service impl class fpr update student with patch");
+            return studentRepository.save(existStudent);
+        }
+        return null;
     }
 }

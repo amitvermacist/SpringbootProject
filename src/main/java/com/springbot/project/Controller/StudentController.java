@@ -2,9 +2,7 @@ package com.springbot.project.Controller;
 
 import com.springbot.project.Entity.Student;
 import com.springbot.project.Service.StudentService;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +29,15 @@ public class StudentController {
         }
     }
 
+    @GetMapping("/process")
+    public String processStudent(
+            @RequestHeader("stu_id") Long stu_id,
+            @RequestHeader("stu_name") String stu_name,
+            @RequestHeader("stu_email") String stu_email,
+            @RequestHeader("stu_mobile_no") Long stu_mobile_no) {
+        return studentService.processStudent(stu_id, stu_name, stu_email, stu_mobile_no);
+    }
+
     @GetMapping("/")
     public ResponseEntity<List<Student>> getAllStudent() {
         List<Student> students = studentService.getAllStudent();
@@ -46,7 +53,8 @@ public class StudentController {
     }
 
     @PutMapping("/id")
-    public ResponseEntity<Student> updateStudentById(@PathVariable Long id, @RequestBody Student updatedStudent) {
+    public ResponseEntity<Student> updateStudentById(@PathVariable Long id,
+                                                     @RequestBody Student updatedStudent) {
         Student updateStudentData = studentService.updateStudent(id, updatedStudent);
         if (updatedStudent != null) {
             log.info("Controller class for update student data");
@@ -61,5 +69,14 @@ public class StudentController {
         studentService.deleteStudent(id);
         log.info("Controller class for delete student data by ID !");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("/{id}")
+    public Student updateStudentWithPatch(@PathVariable Long id,
+                                          @RequestParam(required = false) String stu_name,
+                                          @RequestParam(required = false) String stu_email,
+                                          @RequestBody Student updateStudentWithPatch) {
+        log.info("Cotroller class for path student using id");
+        return studentService.updateStudentWithPatch(id, stu_name, stu_email, updateStudentWithPatch);
     }
 }
